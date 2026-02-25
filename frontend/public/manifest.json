@@ -1,0 +1,12 @@
+{
+  "name": "Pinioscan — Base Token Safety",
+  "short_name": "Pinioscan",
+  "description": "AI-powered token safety scanner for Base with on-chain attestations",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#09090b",
+  "theme_color": "#10b981",
+  "icons": [
+    { "src": "/logo-512.png", "sizes": "512x512", "type": "image/png" }
+  ]
+}

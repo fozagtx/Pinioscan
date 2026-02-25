@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://opvibecheck.xyz/sitemap.xml

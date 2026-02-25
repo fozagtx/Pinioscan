@@ -1,0 +1,461 @@
+@import "tailwindcss";
+@import url('https://api.fontshare.com/v2/css?f[]=satoshi@700,600,500,400&display=swap');
+
+/* ============================================================
+   DESIGN TOKENS — Pinioscan
+   ============================================================ */
+
+:root {
+  /* Backgrounds */
+  --bg-primary:    #0A0B0F;
+  --bg-secondary:  #12131A;
+  --bg-tertiary:   #1A1B25;
+  --bg-input:      #15161F;
+
+  /* Base blue (brand accent) */
+  --base-blue:       #0052FF;
+  --base-blue-hover: #1A66FF;
+  --base-blue-muted: rgba(0, 82, 255, 0.1);
+  --base-blue-glow:  rgba(0, 82, 255, 0.2);
+
+  /* Text */
+  --text-primary:   #F0F0F5;
+  --text-secondary: #8A8B9A;
+  --text-tertiary:  #555666;
+  --text-inverse:   #0A0B0F;
+
+  /* Status — Safe */
+  --safe:        #00D084;
+  --safe-bg:     rgba(0, 208, 132, 0.1);
+  --safe-border: rgba(0, 208, 132, 0.2);
+
+  /* Status — Warning */
+  --warn:        #FFB020;
+  --warn-bg:     rgba(255, 176, 32, 0.1);
+  --warn-border: rgba(255, 176, 32, 0.2);
+
+  /* Status — Danger */
+  --danger:        #FF3B5C;
+  --danger-bg:     rgba(255, 59, 92, 0.1);
+  --danger-border: rgba(255, 59, 92, 0.2);
+  --danger-glow:   rgba(255, 59, 92, 0.13);
+
+  /* Status — Neutral */
+  --neutral:    #6B6C7E;
+  --neutral-bg: rgba(107, 108, 126, 0.1);
+
+  /* Radius */
+  --radius-sm:   6px;
+  --radius-md:   10px;
+  --radius-lg:   14px;
+  --radius-xl:   20px;
+  --radius-full: 9999px;
+
+  /* Shadows */
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.25);
+  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.35);
+  --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.45);
+  --shadow-xl: 0 16px 48px rgba(0, 0, 0, 0.55);
+
+  /* Status glows */
+  --glow-safe:   0 0 12px rgba(0, 208, 132, 0.15), 0 0 36px rgba(0, 208, 132, 0.05);
+  --glow-warn:   0 0 16px rgba(255, 176, 32, 0.2),  0 0 48px rgba(255, 176, 32, 0.06);
+  --glow-danger: 0 0 20px rgba(255, 59, 92, 0.25),  0 0 60px rgba(255, 59, 92, 0.08);
+  --glow-blue:   0 0 16px rgba(0, 82, 255, 0.2),    0 0 48px rgba(0, 82, 255, 0.06);
+
+  /* Motion */
+  --dur-fast:     100ms;
+  --dur-normal:   200ms;
+  --dur-moderate: 300ms;
+  --dur-slow:     500ms;
+  --ease-default: cubic-bezier(0.25, 0.1, 0.25, 1);
+  --ease-out:     cubic-bezier(0, 0, 0.2, 1);
+  --ease-in:      cubic-bezier(0.4, 0, 1, 1);
+  --ease-spring:  cubic-bezier(0.34, 1.56, 0.64, 1);
+
+  /* Legacy aliases used by existing components */
+  --background: var(--bg-primary);
+  --foreground: var(--text-primary);
+  --accent:     var(--base-blue);
+  --accent-dim: var(--base-blue-hover);
+}
+
+/* ── Tailwind v4 theme ─────────────────────────────────────── */
+@theme inline {
+  --color-background: var(--bg-primary);
+  --color-foreground: var(--text-primary);
+  --font-sans:        "Satoshi", "Geist", var(--font-geist-sans), sans-serif;
+  --font-mono:        "Geist Mono", var(--font-geist-mono), monospace;
+}
+
+/* ── Base ──────────────────────────────────────────────────── */
+html, body { overflow-x: hidden; }
+
+body {
+  background-color: var(--bg-primary);
+  background-image:
+    radial-gradient(ellipse 80% 50% at 50% -20%, rgba(0, 82, 255, 0.05) 0%, transparent 50%),
+    radial-gradient(ellipse 50% 40% at 80% 60%,  rgba(0, 82, 255, 0.02) 0%, transparent 50%);
+  color: var(--text-primary);
+  font-family: "Geist", var(--font-geist-sans), sans-serif;
+}
+
+/* ── Grid background ───────────────────────────────────────── */
+.bg-grid {
+  background-image:
+    linear-gradient(rgba(255,255,255,0.015) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.015) 1px, transparent 1px);
+  background-size: 64px 64px;
+}
+
+/* ── Glass card ─────────────────────────────────────────────── */
+.glass {
+  background: rgba(18, 19, 26, 0.7);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(26, 27, 37, 0.9);
+}
+.glass-hover:hover {
+  background: rgba(26, 27, 37, 0.85);
+  border-color: rgba(42, 43, 58, 0.9);
+}
+
+/* ── Hero glow ──────────────────────────────────────────────── */
+.hero-glow { position: relative; }
+.hero-glow::before {
+  content: '';
+  position: absolute;
+  top: -120px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 600px;
+  height: 400px;
+  background: radial-gradient(ellipse, rgba(0, 82, 255, 0.06) 0%, transparent 70%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ── Status card borders + glows ───────────────────────────── */
+.card-safe    { border-color: var(--safe-border);   box-shadow: var(--glow-safe); }
+.card-warn    { border-color: var(--warn-border);   box-shadow: var(--glow-warn); }
+.card-danger  { border-color: var(--danger-border); box-shadow: var(--glow-danger); }
+
+/* ── Status badge glows ─────────────────────────────────────── */
+.badge-safe     { box-shadow: 0 0 8px rgba(0, 208, 132, 0.2); }
+.badge-caution  { box-shadow: 0 0 8px rgba(255, 176, 32, 0.2); }
+.badge-danger   { box-shadow: 0 0 8px rgba(255, 59, 92, 0.2); }
+.badge-critical { box-shadow: 0 0 10px rgba(255, 59, 92, 0.3); }
+
+/* Danger status dot pulse */
+@keyframes danger-pulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(255, 59, 92, 0.4); }
+  50%       { box-shadow: 0 0 0 4px rgba(255, 59, 92, 0); }
+}
+.pulse-danger { animation: danger-pulse 2s ease-in-out infinite; }
+
+/* ── Score gauge ────────────────────────────────────────────── */
+.score-glow {
+  filter: drop-shadow(0 0 12px var(--glow-color, rgba(0, 208, 132, 0.3)));
+}
+
+/* ── Focus ring ─────────────────────────────────────────────── */
+*:focus-visible,
+button:focus-visible,
+a:focus-visible,
+input:focus-visible {
+  outline: 2px solid var(--base-blue);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* ── Scrollbar ──────────────────────────────────────────────── */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb {
+  background: rgba(26, 27, 37, 0.8);
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover { background: rgba(42, 43, 58, 0.9); }
+
+/* ── Animated gradient border ───────────────────────────────── */
+@property --angle {
+  syntax: "<angle>";
+  initial-value: 0deg;
+  inherits: false;
+}
+.gradient-border {
+  position: relative;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+}
+.gradient-border::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1px;
+  background: conic-gradient(from var(--angle), transparent 40%, var(--base-blue) 50%, transparent 60%);
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  animation: rotate-border 4s linear infinite;
+}
+@keyframes rotate-border { to { --angle: 360deg; } }
+
+/* ── Shimmer / skeleton ─────────────────────────────────────── */
+.shimmer {
+  background: linear-gradient(
+    90deg,
+    rgba(26, 27, 37, 0.5) 0%,
+    rgba(42, 43, 58, 0.5) 50%,
+    rgba(26, 27, 37, 0.5) 100%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.5s ease-in-out infinite;
+}
+.scan-shimmer {
+  background: linear-gradient(
+    90deg,
+    rgba(255,255,255,0) 0%,
+    rgba(255,255,255,0.04) 50%,
+    rgba(255,255,255,0) 100%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 2s infinite;
+}
+@keyframes shimmer {
+  0%   { background-position:  200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+/* ── Pulse glow ─────────────────────────────────────────────── */
+@keyframes pulse-glow {
+  0%, 100% { opacity: 0.4; }
+  50%       { opacity: 1; }
+}
+.animate-pulse-glow { animation: pulse-glow 2s ease-in-out infinite; }
+
+/* ── Score animations ───────────────────────────────────────── */
+@keyframes score-pop {
+  0%   { transform: scale(0.6); opacity: 0; }
+  60%  { transform: scale(1.08); }
+  100% { transform: scale(1); opacity: 1; }
+}
+.animate-score-pop { animation: score-pop 0.8s var(--ease-spring); }
+
+.score-complete-flash {
+  position: absolute;
+  inset: -20px;
+  border-radius: 50%;
+  background: radial-gradient(circle, var(--flash-color, var(--safe)) 0%, transparent 70%);
+  opacity: 0;
+  animation: score-flash 0.8s var(--ease-out) forwards;
+  pointer-events: none;
+}
+@keyframes score-flash {
+  0%   { opacity: 0.4; transform: scale(0.5); }
+  50%  { opacity: 0.2; }
+  100% { opacity: 0;   transform: scale(2); }
+}
+
+/* ── Fade in up ─────────────────────────────────────────────── */
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.animate-fade-in-up { animation: fadeInUp 0.5s var(--ease-out) forwards; }
+
+.stagger-children > * {
+  opacity: 0;
+  animation: fadeInUp 0.5s var(--ease-out) forwards;
+}
+.stagger-children > *:nth-child(1) { animation-delay:   0ms; }
+.stagger-children > *:nth-child(2) { animation-delay: 100ms; }
+.stagger-children > *:nth-child(3) { animation-delay: 200ms; }
+.stagger-children > *:nth-child(4) { animation-delay: 300ms; }
+.stagger-children > *:nth-child(5) { animation-delay: 400ms; }
+
+/* ── Token reveal ───────────────────────────────────────────── */
+.animate-token-reveal { animation: token-reveal 0.6s var(--ease-out) forwards; }
+@keyframes token-reveal {
+  from { opacity: 0; transform: translateY(12px); filter: blur(4px); }
+  to   { opacity: 1; transform: translateY(0);    filter: blur(0); }
+}
+
+/* ── Badge pop ──────────────────────────────────────────────── */
+.animate-badge-pop { animation: badge-pop 0.5s var(--ease-spring) forwards; }
+@keyframes badge-pop {
+  0%   { transform: scale(0); opacity: 0; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+/* ── Progress bar ───────────────────────────────────────────── */
+.scan-progress {
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--base-blue), transparent);
+  animation: scan-sweep 2s ease-in-out infinite;
+}
+@keyframes scan-sweep {
+  0%   { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+
+/* ── Marquee ────────────────────────────────────────────────── */
+@keyframes marquee {
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+.animate-marquee { animation: marquee 30s linear infinite; }
+.animate-marquee:hover { animation-play-state: paused; }
+
+/* ── Scan animation ─────────────────────────────────────────── */
+.scan-animation-container {
+  position: relative;
+  width: 140px;
+  height: 140px;
+  margin: 0 auto;
+}
+.scan-ring {
+  position: absolute;
+  border-radius: 50%;
+  border: 1.5px solid transparent;
+}
+.scan-ring-outer {
+  inset: 0;
+  border-color: var(--scan-color, var(--base-blue));
+  opacity: 0.3;
+  animation: scan-rotate 4s linear infinite;
+  border-style: dashed;
+}
+.scan-ring-middle {
+  inset: 14px;
+  border-color: var(--scan-color, var(--base-blue));
+  opacity: 0.5;
+  animation: scan-rotate 3s linear infinite reverse, scan-pulse-ring 2s ease-in-out infinite;
+}
+.scan-ring-inner {
+  inset: 30px;
+  background: radial-gradient(circle, color-mix(in srgb, var(--scan-color, var(--base-blue)) 15%, transparent) 0%, transparent 70%);
+  animation: scan-pulse-ring 2s ease-in-out infinite 0.5s;
+}
+.scan-center-icon {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2;
+}
+.scan-icon-draw {
+  stroke-dasharray: 30;
+  stroke-dashoffset: 30;
+  animation: draw-icon 0.8s var(--ease-out) forwards;
+}
+@keyframes draw-icon   { to { stroke-dashoffset: 0; } }
+@keyframes scan-rotate { to { transform: rotate(360deg); } }
+@keyframes scan-pulse-ring {
+  0%, 100% { opacity: 0.3; transform: scale(1); }
+  50%       { opacity: 0.7; transform: scale(1.05); }
+}
+
+.scan-particle {
+  position: absolute;
+  width: 3px; height: 3px;
+  border-radius: 50%;
+  background: var(--scan-color, var(--base-blue));
+  top: 50%; left: 50%;
+  animation: particle-orbit 3s linear infinite;
+  animation-delay: var(--particle-delay, 0s);
+  opacity: 0;
+}
+@keyframes particle-orbit {
+  0%   { transform: rotate(var(--particle-angle, 0deg)) translateX(20px); opacity: 0; }
+  20%  { opacity: 0.8; }
+  80%  { opacity: 0.6; }
+  100% { transform: rotate(calc(var(--particle-angle, 0deg) + 360deg)) translateX(65px); opacity: 0; }
+}
+
+.scan-data-stream {
+  position: absolute;
+  width: 1px; height: 12px;
+  background: linear-gradient(to bottom, var(--scan-color, var(--base-blue)), transparent);
+  top: 50%; left: 50%;
+  animation: data-stream 2s linear infinite;
+  animation-delay: var(--stream-delay, 0s);
+  opacity: 0;
+}
+@keyframes data-stream {
+  0%   { transform: rotate(var(--stream-angle, 0deg)) translateY(-25px); opacity: 0; height: 8px; }
+  30%  { opacity: 0.6; }
+  100% { transform: rotate(var(--stream-angle, 0deg)) translateY(-70px); opacity: 0; height: 20px; }
+}
+
+/* ── Step progress ──────────────────────────────────────────── */
+.step-circle { transition: all 0.5s var(--ease-spring); }
+.step-active {
+  box-shadow: 0 0 16px rgba(0, 82, 255, 0.3), inset 0 0 8px rgba(0, 82, 255, 0.1);
+  border: 2px solid rgba(0, 82, 255, 0.4);
+}
+.step-done { animation: step-complete 0.5s var(--ease-spring); }
+@keyframes step-complete {
+  0%   { transform: scale(1); }
+  50%  { transform: scale(1.2); }
+  100% { transform: scale(1); }
+}
+.step-ripple {
+  position: absolute;
+  inset: -4px;
+  border-radius: 50%;
+  border: 2px solid rgba(0, 82, 255, 0.4);
+  animation: step-ripple-expand 1.5s ease-out infinite;
+}
+@keyframes step-ripple-expand {
+  0%   { transform: scale(0.8); opacity: 1; }
+  100% { transform: scale(1.6); opacity: 0; }
+}
+.step-icon-pulse { animation: icon-pulse 1s ease-in-out infinite; }
+@keyframes icon-pulse {
+  0%, 100% { transform: scale(1); }
+  50%       { transform: scale(1.2); }
+}
+.step-label-glow { text-shadow: 0 0 8px rgba(0, 82, 255, 0.5); }
+.checkmark-path {
+  stroke-dasharray: 24;
+  stroke-dashoffset: 24;
+  animation: checkmark-draw 0.4s var(--ease-out) 0.1s forwards;
+}
+@keyframes checkmark-draw { to { stroke-dashoffset: 0; } }
+.step-line-fill {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, rgba(0, 82, 255, 0.6), rgba(0, 82, 255, 0.2));
+  animation: line-fill 0.4s var(--ease-out) forwards;
+  transform-origin: left;
+}
+@keyframes line-fill {
+  from { transform: scaleX(0); }
+  to   { transform: scaleX(1); }
+}
+
+/* ── Reduced motion ─────────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  .animate-pulse-glow,
+  .animate-score-pop,
+  .animate-fade-in-up,
+  .animate-token-reveal,
+  .animate-badge-pop,
+  .animate-marquee,
+  .scan-ring-outer,
+  .scan-ring-middle,
+  .scan-ring-inner,
+  .scan-particle,
+  .scan-data-stream,
+  .step-ripple,
+  .step-icon-pulse,
+  .pulse-danger,
+  .score-complete-flash,
+  .gradient-border::before {
+    animation: none;
+  }
+  * { transition-duration: 0.01ms !important; }
+}
