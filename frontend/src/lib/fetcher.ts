@@ -296,23 +296,25 @@ export async function checkLPLocks(pairAddress: string): Promise<LPLockInfo> {
     if (totalLP === 0n) return { isLocked: false, lockedPercent: 0 };
 
     let totalLocked = 0n;
-    let platform: string | undefined;
+    const platforms: string[] = [];
 
     const addressesToCheck = [...Object.keys(KNOWN_LOCKERS), ...DEAD_ADDRESSES];
     const balances = await Promise.all(
       addressesToCheck.map(addr => pair.balanceOf(addr).catch(() => 0n))
     );
 
+    const lockerCount = Object.keys(KNOWN_LOCKERS).length;
     for (let i = 0; i < balances.length; i++) {
       if (balances[i] > 0n) {
         totalLocked += balances[i];
-        if (i < Object.keys(KNOWN_LOCKERS).length) {
-          platform = Object.values(KNOWN_LOCKERS)[i];
-        } else {
-          platform = platform || 'Burned';
+        if (i < lockerCount) {
+          platforms.push(Object.values(KNOWN_LOCKERS)[i]);
+        } else if (!platforms.includes('Burned')) {
+          platforms.push('Burned');
         }
       }
     }
+    const platform = platforms.length > 0 ? platforms.join(', ') : undefined;
 
     const lockedPercent = Number((totalLocked * 10000n) / totalLP) / 100;
     return {

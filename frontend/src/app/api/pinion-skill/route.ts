@@ -66,7 +66,7 @@ export async function GET(): Promise<NextResponse> {
           resource: 'https://pinioscan.xyz/api/pinion-skill',
           description: 'Pinioscan token safety analysis — 0.10 USDC per scan',
           mimeType: 'application/json',
-          payTo: process.env.DEPLOYER_PRIVATE_KEY ? undefined : '0x0000000000000000000000000000000000000000',
+          payTo: process.env.PAYMENT_RECEIVER_ADDRESS || '0x0000000000000000000000000000000000000000',
           maxTimeoutSeconds: 300,
           asset: '0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913', // USDC on Base
           extra: { name: 'USD Coin', version: '2' },

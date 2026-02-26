@@ -117,6 +117,10 @@ function HomeInner() {
     fetch('/api/total-scans').then(r => r.json()).then(d => {
       if (d.totalScans != null) setTotalScans(Number(d.totalScans));
     }).catch(() => {});
+    return () => {
+      if (timerRef.current) clearInterval(timerRef.current);
+      if (abortRef.current) abortRef.current.abort();
+    };
   }, []);
 
   useEffect(() => {

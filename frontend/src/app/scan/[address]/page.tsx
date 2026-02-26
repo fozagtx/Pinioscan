@@ -34,13 +34,12 @@ export default function ScanPage({ params }: { params: Promise<{ address: string
   const handleScan = useCallback(async () => {
     setError(''); setReport(null); setStatus('fetching'); setElapsed(0);
 
-    const scanStartTime = Date.now();
     const startTime = Date.now();
     timerRef.current = setInterval(() => setElapsed((Date.now() - startTime) / 1000), 100);
     let pendingReport: PinioscanReport | null = null;
 
     const finishScan = (rpt: PinioscanReport) => {
-      const elapsed = Date.now() - scanStartTime;
+      const elapsed = Date.now() - startTime;
       const minDisplay = 500;
       if (elapsed < minDisplay) {
         setTimeout(() => {

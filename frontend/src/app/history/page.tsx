@@ -4,7 +4,7 @@ import { useState, useEffect, useMemo } from 'react';
 import Link from 'next/link';
 import { RISK_BG, RISK_COLORS, shortenAddress } from '../../lib/constants';
 
-const CONTRACT_ADDRESS = '0x427F80AE3ebF7C275B138Bc9C9A39C76572AA161';
+const CONTRACT_ADDRESS = process.env.NEXT_PUBLIC_PINIOSCAN_CONTRACT_ADDRESS || '0x427F80AE3ebF7C275B138Bc9C9A39C76572AA161';
 const BASE_EXPLORER = 'https://basescan.org';
 
 const RISK_BAR_BG: Record<string, string> = {

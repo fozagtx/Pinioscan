@@ -16,21 +16,41 @@ const bin = readFileSync("build/contracts_PinioScan_sol_PinioScan.bin", "utf-8")
 const abi = JSON.parse(readFileSync("build/contracts_PinioScan_sol_PinioScan.abi", "utf-8"));
 
 const NETWORK = process.argv[2] || "mainnet";
-const BASE_RPC = "https://mainnet.base.org";
-const BASE_CHAIN_ID = 8453;
+
+const NETWORKS = {
+  mainnet: {
+    rpc: "https://mainnet.base.org",
+    chainId: 8453,
+    explorer: "https://basescan.org",
+    faucet: null,
+  },
+  testnet: {
+    rpc: "https://sepolia.base.org",
+    chainId: 84532,
+    explorer: "https://sepolia.basescan.org",
+    faucet: "https://faucet.quicknode.com/base/sepolia",
+  },
+};
+
+if (!NETWORKS[NETWORK]) {
+  console.error(`Unknown network "${NETWORK}". Use: mainnet | testnet`);
+  process.exit(1);
+}
+
+const { rpc, chainId, explorer, faucet } = NETWORKS[NETWORK];
 
 async function main() {
-  const provider = new ethers.JsonRpcProvider(BASE_RPC, BASE_CHAIN_ID);
+  const provider = new ethers.JsonRpcProvider(rpc, chainId);
   const wallet = new ethers.Wallet(process.env.DEPLOYER_PRIVATE_KEY, provider);
 
-  console.log(`\nNetwork: Base (chain ${BASE_CHAIN_ID})`);
+  console.log(`\nNetwork: Base ${NETWORK} (chain ${chainId})`);
   console.log("Deployer:", wallet.address);
 
   const balance = await provider.getBalance(wallet.address);
   console.log("Balance:", ethers.formatEther(balance), "ETH");
 
   if (balance === 0n) {
-    console.error("\n❌ No gas! Bridge ETH to Base at https://bridge.base.org");
+    console.error(`\n❌ No gas! Get testnet ETH from: ${faucet || "https://bridge.base.org"}`);
     process.exit(1);
   }
 
@@ -41,7 +61,7 @@ async function main() {
 
   const address = await contract.getAddress();
   console.log("✅ PinioScan deployed to:", address);
-  console.log(`\nExplorer: https://basescan.org/address/${address}`);
+  console.log(`\nExplorer: ${explorer}/address/${address}`);
   console.log(`\nAdd to .env:\nPINIOSCAN_CONTRACT_ADDRESS=${address}`);
 }
 

@@ -40,5 +40,5 @@ export async function submitAttestation(
   );
 
   const receipt = await tx.wait();
-  return receipt.hash;
+  return receipt?.hash ?? tx.hash;
 }
